@@ -1,8 +1,6 @@
 
 #include "platform/platform.hpp"
-#ifndef GEODE_IS_IOS
 #include <Geode/modify/CCKeyboardDispatcher.hpp>
-#endif
 #include <Geode/modify/AchievementNotifier.hpp>
 #include <Geode/modify/CCDirector.hpp>
 #include <Geode/modify/CCEGLView.hpp>

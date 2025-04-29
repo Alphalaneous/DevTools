@@ -1,6 +1,6 @@
 #include <Geode/platform/platform.hpp>
 
-#ifdef GEODE_IS_MACOS
+#ifdef GEODE_IS_MACOS || GEODE_IS_IOS
 
 #include "utils.hpp"
 
@@ -17,6 +17,7 @@
 #include <mach-o/dyld_images.h>
 #include <mach-o/dyld.h>
 #import <Foundation/Foundation.h>
+
 
 static std::vector<struct dyld_image_info const*> getAllImages() {
     std::vector<struct dyld_image_info const*> images;
