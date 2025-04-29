@@ -76,19 +76,21 @@ bool GLRenderCtx::begin() {
             0,GL_RGB, GL_UNSIGNED_BYTE, 0
         );
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     }
 
     if (!m_depthStencil) {
         glGenRenderbuffers(1, &m_depthStencil);
         glBindRenderbuffer(GL_RENDERBUFFER, m_depthStencil);
         glRenderbufferStorage(
-            GL_RENDERBUFFER, GL_DEPTH24_STENCIL8,
+            GL_RENDERBUFFER, GL_DEPTH_COMPONENT16,
             static_cast<GLsizei>(m_size.x),
             static_cast<GLsizei>(m_size.y)
         );
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_depthStencil);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthStencil);
 
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
     }
