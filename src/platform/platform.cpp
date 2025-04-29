@@ -82,18 +82,28 @@ bool GLRenderCtx::begin() {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     }
 
+
     if (!m_depthStencil) {
         glGenRenderbuffers(1, &m_depthStencil);
         glBindRenderbuffer(GL_RENDERBUFFER, m_depthStencil);
+
+        #ifdef GEODE_IS_IOS
         glRenderbufferStorage(
-            GL_RENDERBUFFER, GL_DEPTH_COMPONENT16,
+            GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES,
             static_cast<GLsizei>(m_size.x),
             static_cast<GLsizei>(m_size.y)
         );
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthStencil);
-
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
+        #else 
+        glRenderbufferStorage(
+            GL_RENDERBUFFER, GL_DEPTH24_STENCIL8,
+            static_cast<GLsizei>(m_size.x),
+            static_cast<GLsizei>(m_size.y)
+        );
+        #endif
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_depthStencil);
     }
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
         log::error("Unable to Render to Framebuffer");
