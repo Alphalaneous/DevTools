@@ -1,6 +1,8 @@
 
 #include "platform/platform.hpp"
+#ifndef GEODE_IS_IOS
 #include <Geode/modify/CCKeyboardDispatcher.hpp>
+#endif
 #include <Geode/modify/AchievementNotifier.hpp>
 #include <Geode/modify/CCDirector.hpp>
 #include <Geode/modify/CCEGLView.hpp>
@@ -19,6 +21,8 @@ class $modify(CCNode) {
     }
 };
 
+#ifndef GEODE_IS_IOS
+
 // todo: use shortcuts api once Geode has those
 class $modify(CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(enumKeyCodes key, bool down, bool arr) {
@@ -29,6 +33,8 @@ class $modify(CCKeyboardDispatcher) {
         return CCKeyboardDispatcher::dispatchKeyboardMSG(key, down, arr);
     }
 };
+
+#endif
 
 #ifdef GEODE_IS_MOBILE
 // lol
