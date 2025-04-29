@@ -78,11 +78,14 @@ class $modify(CCDirector) {
             shouldUpdateGDRenderBuffer() = false;
         }
 
+
         #ifdef GEODE_IS_IOS
         auto winSize = this->getOpenGLView()->m_obViewPortRect * geode::utils::getDisplayFactor();
         #else
         auto winSize = this->getOpenGLView()->getViewPortRect() * geode::utils::getDisplayFactor();
         #endif
+
+        gdTexture = new GLRenderCtx(ImVec2(winSize.size.width, winSize.size.height));
 
         if (!gdTexture->begin()) {
             delete gdTexture;
