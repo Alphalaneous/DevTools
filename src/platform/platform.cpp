@@ -93,14 +93,16 @@ bool GLRenderCtx::begin() {
             static_cast<GLsizei>(m_size.x),
             static_cast<GLsizei>(m_size.y)
         );
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthStencil);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_depthStencil);
         #else 
         glRenderbufferStorage(
             GL_RENDERBUFFER, GL_DEPTH24_STENCIL8,
             static_cast<GLsizei>(m_size.x),
             static_cast<GLsizei>(m_size.y)
         );
-        #endif
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_depthStencil);
+        #endif
     }
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture, 0);
